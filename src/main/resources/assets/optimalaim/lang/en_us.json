@@ -1,0 +1,60 @@
+{
+  "modmenu.descriptionTranslation.${id}": "${description}",
+  "${id}": {
+    "${id}": "${name}",
+    "config": {
+      "unit": {
+        "blocks": "%s blocks",
+        "entities": "%s entities"
+      },
+      "enabled": {
+        "name": "Enabled",
+        "description": "Render the cube?"
+      },
+      "hitbox": {
+        "name": "Conform to hitbox",
+        "description": "Contains the cube to the entity hitbox."
+      },
+      "onlyTargetPlayers": {
+        "name": "Only target players",
+        "description": "Only show the cube on players."
+      },
+      "showWhileHit": {
+        "name": "Show while damaged",
+        "description": "Show the cube while the entity/player is damaged."
+      },
+      "cubeSize": {
+        "name": "Cube Size",
+        "description": "The size of the cube."
+      },
+      "distance": {
+        "name": "Max distance to entity",
+        "description": "The maximum amount of blocks where cubes will render."
+      },
+      "fillColor": {
+        "name": "Fill Color",
+        "description": "Fill Color."
+      },
+      "entityLimit": {
+        "name": "Entity Limit",
+        "description": "The maximum amount of entites that cubes will render in."
+      }
+    },
+    "enabled": {
+      "name": "Enabled",
+      "description": "Enable Optimal Aim Boxes."
+    },
+    "enabled": {
+      "name": "Enabled",
+      "description": "Enable Optimal Aim Boxes."
+    }
+  },
+  "yacl3.config.${id}:config": {
+    "category": {
+      "general": "General",
+      "general.group.main": "Main",
+      "general.group.behavior": "Behavior",
+      "general.group.appearance": "Appearance"
+    }
+  }
+}
