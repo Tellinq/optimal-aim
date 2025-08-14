@@ -8,11 +8,11 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
 public class CameraPose {
-    public PoseStack makeCameraAlignedPose(LocalPlayer player, AABB cube, float partialTicks) {
+    public PoseStack makeCameraAlignedPose(Camera camera, AABB cube, float partialTicks) {
         PoseStack stack = new PoseStack();
-        stack.mulPose(Axis.XP.rotationDegrees(player.getXRot()));
-        stack.mulPose(Axis.YP.rotationDegrees(player.getYRot() + 180.0F));
-        Vec3 camPos = player.getEyePosition(partialTicks);
+        stack.mulPose(Axis.XP.rotationDegrees(camera.getXRot()));
+        stack.mulPose(Axis.YP.rotationDegrees(camera.getYRot() + 180.0F));
+        Vec3 camPos = camera.getPosition();
         Vec3 targetPos = new Vec3(cube.minX, cube.minY, cube.minZ).subtract(camPos);
         stack.translate(targetPos.x, targetPos.y, targetPos.z);
         return stack;

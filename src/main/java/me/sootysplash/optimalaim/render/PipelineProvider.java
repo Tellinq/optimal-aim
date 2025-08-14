@@ -13,7 +13,7 @@ public final class PipelineProvider {
     public OmniRenderPipeline get() {
         if (pipeline == null) {
             OmniRenderPipelineBuilder builder = OmniRenderPipeline.builderWithDefaultShader(
-                    OmniIdentifier.create("testmod", "custom"),
+                    OmniIdentifier.create("optimalaim", "boxrenderer"),
                     VertexFormats.POSITION_COLOR,
                     DrawModes.QUADS
             );

@@ -64,7 +64,7 @@ public class OptimalAim /*? if fabric {*/ implements ModInitializer /*?}*/ {
         INSTANCE = this;
     }
 
-    public void render() {
+    public void render(Camera camera) {
         OptimalAimConfig config = OptimalAimConfig.instance();
         if (!config.enabled) return;
 
@@ -76,11 +76,11 @@ public class OptimalAim /*? if fabric {*/ implements ModInitializer /*?}*/ {
         float tickDelta = OmniGameRendering.getTickDelta(true);
         selector.getNearbyEntities(player, tickDelta).stream()
                 .limit(config.entityLimit)
-                .forEach(entity -> renderEntityBox(player, entity, tickDelta, config));
+                .forEach(entity -> renderEntityBox(player, entity, camera, tickDelta, config));
 
     }
 
-    private void renderEntityBox(LocalPlayer player, Entity entity, float tickDelta, OptimalAimConfig config) {
+    private void renderEntityBox(LocalPlayer player, Entity entity, Camera camera, float tickDelta, OptimalAimConfig config) {
         AABB target = hitboxes.resolveTargetHitbox(entity, player, tickDelta);
         if (target == null) return;
 
@@ -90,7 +90,7 @@ public class OptimalAim /*? if fabric {*/ implements ModInitializer /*?}*/ {
             cube = geom.clampCubeToHitbox(cube, target);
         }
 
-        PoseStack pose = cameraPose.makeCameraAlignedPose(player, cube, tickDelta);
+        PoseStack pose = cameraPose.makeCameraAlignedPose(camera, cube, tickDelta);
         boxRenderer.drawBox(pose, cube, config.fillColor);
     }
 
