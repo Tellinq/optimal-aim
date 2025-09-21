@@ -2,6 +2,7 @@ package me.sootysplash.optimalaim.select;
 
 import com.google.common.collect.Streams;
 import dev.deftu.omnicore.api.client.OmniClient;
+import dev.deftu.omnicore.api.client.player.OmniClientPlayer;
 import dev.deftu.omnicore.api.client.render.OmniRenderTicks;
 import dev.deftu.omnicore.api.data.DistanceMetric;
 import dev.deftu.omnicore.api.data.aabb.OmniAABB;
@@ -47,13 +48,13 @@ public class TargetSelector {
         if (!entity.isAttackable() || entity.isInvisible() || entity.hasPassenger(player)) return false;
         if (!showWhileHit && entity instanceof LivingEntity le && le.hurtTime > 0) return false;
 
-        OmniVec3d closest = GeometryUtil.closestPointToBox(new OmniAABB(entity.getBoundingBox()), eye.toVanilla());
+        OmniVec3d closest = GeometryUtil.closestPointToBox(new OmniAABB(entity.getBoundingBox()), eye);
         return eye.distanceTo(closest, DistanceMetric.EUCLIDEAN) <= maxDist;
     }
 
     public float yaw(Entity entity) {
         Player player = OmniClient.getPlayer();
-        OmniVec3d target = GeometryUtil.closestPointToBox(new OmniAABB(entity.getBoundingBox()), player.getEyePosition(OmniRenderTicks.get(true)));
+        OmniVec3d target = GeometryUtil.closestPointToBox(new OmniAABB(entity.getBoundingBox()), new OmniVec3d(player.getEyePosition(OmniRenderTicks.get(true))));
         float amount = (float) Math.toDegrees(atan2(target.getZ() - OmniPlayers.getPosZ(player), target.getX() - OmniPlayers.getPosX(player))) - 90.0f;
         amount = Math.abs(wrapDegrees(amount - OmniPlayers.getRotationYaw(player)));
         return amount;

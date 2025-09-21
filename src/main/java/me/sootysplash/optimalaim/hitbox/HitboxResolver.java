@@ -34,7 +34,7 @@ public class HitboxResolver {
             OmniAABB box = new OmniAABB(part.getBoundingBox())
                     .offset(part.position().scale(-1))
                     .offset(part.getPosition(partialTicks));
-            double d = eye.distanceTo(GeometryUtil.closestPointToBox(box, eye.toVanilla()).toVanilla(), DistanceMetric.EUCLIDEAN);
+            double d = eye.distanceTo(GeometryUtil.closestPointToBox(box, eye), DistanceMetric.EUCLIDEAN);
             if (d < best) {
                 best = d;
                 closest = box;

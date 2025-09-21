@@ -82,7 +82,7 @@ public class OptimalAim /*? if fabric {*/ implements ModInitializer /*?}*/ {
         OmniAABB target =  hitboxes.resolveTargetHitbox(entity, player, tickDelta);
         if (target == null) return;
 
-        OmniVec3d optimal = GeometryUtil.closestPointToBox(target, player.getEyePosition(tickDelta));
+        OmniVec3d optimal = GeometryUtil.closestPointToBox(target, new OmniVec3d(player.getEyePosition(tickDelta)));
         OmniAABB cube = geom.buildCubeAround(optimal, config.cubeSize / 5.0);
         if (config.hitbox) {
             cube = geom.clampCubeToHitbox(cube, target);

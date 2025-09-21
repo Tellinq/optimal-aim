@@ -8,10 +8,10 @@ import net.minecraft.world.phys.Vec3;
 
 public class GeometryUtil {
 
-    public static OmniVec3d closestPointToBox(OmniAABB box, Vec3 point) {
-        double x = Math.min(Math.max(point.x, box.getMinX()), box.getMaxX());
-        double y = Math.min(Math.max(point.y, box.getMinY()), box.getMaxY());
-        double z = Math.min(Math.max(point.z, box.getMinZ()), box.getMaxZ());
+    public static OmniVec3d closestPointToBox(OmniAABB box, OmniVec3d point) {
+        double x = Math.min(Math.max(point.getX(), box.getMinX()), box.getMaxX());
+        double y = Math.min(Math.max(point.getY(), box.getMinY()), box.getMaxY());
+        double z = Math.min(Math.max(point.getZ(), box.getMinZ()), box.getMaxZ());
         return new OmniVec3d(x, y, z);
     }
 
