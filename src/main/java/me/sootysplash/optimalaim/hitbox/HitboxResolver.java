@@ -1,5 +1,6 @@
 package me.sootysplash.optimalaim.hitbox;
 
+import dev.deftu.omnicore.api.data.aabb.OmniAABB;
 import me.sootysplash.optimalaim.math.GeometryUtil;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.world.entity.Entity;

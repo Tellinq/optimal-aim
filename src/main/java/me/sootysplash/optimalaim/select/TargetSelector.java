@@ -1,9 +1,9 @@
 package me.sootysplash.optimalaim.select;
 
 import com.google.common.collect.Streams;
-import dev.deftu.omnicore.client.OmniClient;
-import dev.deftu.omnicore.client.OmniClientPlayer;
-import dev.deftu.omnicore.client.render.OmniGameRendering;
+import dev.deftu.omnicore.api.client.OmniClient;
+import dev.deftu.omnicore.api.client.render.OmniRenderTicks;
+import dev.deftu.omnicore.api.player.OmniPlayers;
 import me.sootysplash.optimalaim.config.OptimalAimConfig;
 import me.sootysplash.optimalaim.math.GeometryUtil;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -22,7 +22,7 @@ import static net.minecraft.util.Mth.wrapDegrees;
 public class TargetSelector {
 
     public List<Entity> getNearbyEntities(LocalPlayer player, float tickDelta) {
-        ClientLevel world = OmniClient.getInstance().level;
+        ClientLevel world = OmniClient.getWorld();
         if (world == null || player == null) return List.of();
 
         Vec3 eye = player.getEyePosition(tickDelta);
@@ -49,9 +49,10 @@ public class TargetSelector {
     }
 
     public float yaw(Entity entity) {
-        Vec3 target = GeometryUtil.closestPointToBox(entity.getBoundingBox(), OmniClientPlayer.getInstance().getEyePosition(OmniGameRendering.getTickDelta(true)));
-        float amount = (float) Math.toDegrees(atan2(target.z - OmniClientPlayer.getPosZ(), target.x - OmniClientPlayer.getPosX())) - 90.0f;
-        amount = Math.abs(wrapDegrees(amount - OmniClientPlayer.getYaw()));
+        Player player = OmniClient.getPlayer();
+        Vec3 target = GeometryUtil.closestPointToBox(entity.getBoundingBox(), player.getEyePosition(OmniRenderTicks.get(true)));
+        float amount = (float) Math.toDegrees(atan2(target.z - OmniPlayers.getPosZ(player), target.x - OmniPlayers.getPosX(player))) - 90.0f;
+        amount = Math.abs(wrapDegrees(amount - OmniPlayers.getRotationYaw(player)));
         return amount;
     }
 }

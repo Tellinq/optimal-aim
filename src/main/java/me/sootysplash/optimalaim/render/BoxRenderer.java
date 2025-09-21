@@ -1,10 +1,13 @@
 package me.sootysplash.optimalaim.render;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import dev.deftu.omnicore.client.render.OmniMatrixStack;
-import dev.deftu.omnicore.client.render.pipeline.DrawModes;
-import dev.deftu.omnicore.client.render.pipeline.VertexFormats;
-import dev.deftu.omnicore.client.render.vertex.OmniBufferBuilder;
+import dev.deftu.omnicore.api.client.render.DefaultVertexFormats;
+import dev.deftu.omnicore.api.client.render.DrawMode;
+import dev.deftu.omnicore.api.client.render.pipeline.OmniRenderPipeline;
+import dev.deftu.omnicore.api.client.render.stack.OmniMatrixStack;
+import dev.deftu.omnicore.api.client.render.stack.OmniMatrixStacks;
+import dev.deftu.omnicore.api.client.render.vertex.OmniBufferBuilder;
+import dev.deftu.omnicore.api.client.render.vertex.OmniBufferBuilders;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
@@ -23,9 +26,11 @@ public class BoxRenderer {
         float x1 = (float) local.minX, y1 = (float) local.minY, z1 = (float) local.minZ;
         float x2 = (float) local.maxX, y2 = (float) local.maxY, z2 = (float) local.maxZ;
 
-        OmniBufferBuilder omniBufferBuilder = OmniBufferBuilder.create(DrawModes.QUADS, VertexFormats.POSITION_COLOR);
-        addBoxQuads(omniBufferBuilder, OmniMatrixStack.vanilla(pose), x1, y1, z1, x2, y2, z2, color);
-        omniBufferBuilder.build().drawWithCleanup(pipelines.get(), ignore -> {});
+        OmniRenderPipeline pipeline = pipelines.get();
+
+        OmniBufferBuilder omniBufferBuilder = OmniBufferBuilders.create(DrawMode.QUADS, pipeline.getVertexFormat());
+        addBoxQuads(omniBufferBuilder, OmniMatrixStacks.wrap(pose), x1, y1, z1, x2, y2, z2, color);
+        omniBufferBuilder.buildOrNull().draw(pipeline, ignore -> {});
     }
 
     private void addBoxQuads(

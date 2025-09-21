@@ -84,7 +84,7 @@ loom.runs {
 
         configureEach {
             vmArg("-javaagent:$mixinJarFile") // Mixin Hotswap doesn't work on NeoForge, but doesn't hurt to keep
-            vmArg("-XX:+AllowEnhancedClassRedefinition")
+            //vmArg("-XX:+AllowEnhancedClassRedefinition")
 
             property("mixin.hotSwap", "true")
             property("mixin.debug.export", "true") // Puts mixin outputs in /run/.mixin.out
@@ -115,6 +115,22 @@ repositories {
     maven(url = "https://maven.deftu.dev/releases") {
         name = "Deftu Releases"
     }
+    maven(url = "https://maven.deftu.dev/snapshots") {
+        name = "Deftu Snapshots"
+    }
+
+    // Repositories
+    maven("https://maven.minecraftforge.net")
+    maven("https://repo.essential.gg/repository/maven-public")
+    maven("https://jitpack.io/")
+
+    // Snapshots
+    maven("https://s01.oss.sonatype.org/content/groups/public/")
+    mavenLocal()
+
+    // Default repositories
+    gradlePluginPortal()
+    mavenCentral()
 }
 
 dependencies {

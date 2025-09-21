@@ -1,23 +1,25 @@
 package me.sootysplash.optimalaim.render;
 
-import dev.deftu.omnicore.client.render.pipeline.DrawModes;
-import dev.deftu.omnicore.client.render.pipeline.OmniRenderPipeline;
-import dev.deftu.omnicore.client.render.pipeline.OmniRenderPipelineBuilder;
-import dev.deftu.omnicore.client.render.pipeline.VertexFormats;
-import dev.deftu.omnicore.client.render.state.OmniManagedBlendState;
-import dev.deftu.omnicore.common.OmniIdentifier;
+import dev.deftu.omnicore.api.OmniIdentifier;
+import dev.deftu.omnicore.api.client.render.DefaultVertexFormats;
+import dev.deftu.omnicore.api.client.render.DrawMode;
+import dev.deftu.omnicore.api.client.render.pipeline.OmniRenderPipeline;
+import dev.deftu.omnicore.api.client.render.pipeline.OmniRenderPipelineBuilder;
+import dev.deftu.omnicore.api.client.render.pipeline.OmniRenderPipelines;
+import dev.deftu.omnicore.api.client.render.state.OmniBlendState;
 
 public final class PipelineProvider {
     private OmniRenderPipeline pipeline;
 
     public OmniRenderPipeline get() {
         if (pipeline == null) {
-            OmniRenderPipelineBuilder builder = OmniRenderPipeline.builderWithDefaultShader(
-                    OmniIdentifier.create("optimalaim", "boxrenderer"),
-                    VertexFormats.POSITION_COLOR,
-                    DrawModes.QUADS
+
+            OmniRenderPipelineBuilder builder = OmniRenderPipelines.builderWithDefaultShader(
+                    OmniIdentifier.createOrNull("optimalaim", "boxrenderer"),
+                    DefaultVertexFormats.POSITION_COLOR,
+                    DrawMode.QUADS
             );
-            builder.blendState = OmniManagedBlendState.NORMAL;
+            builder.blendState = OmniBlendState.NORMAL;
             pipeline = builder.build();
         }
         return pipeline;

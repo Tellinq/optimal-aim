@@ -1,8 +1,8 @@
 package me.sootysplash.optimalaim;
 
 import com.mojang.blaze3d.vertex.*;
-import dev.deftu.omnicore.client.OmniClientPlayer;
-import dev.deftu.omnicore.client.render.OmniGameRendering;
+import dev.deftu.omnicore.api.client.OmniClient;
+import dev.deftu.omnicore.api.client.render.OmniRenderTicks;
 import me.sootysplash.optimalaim.camera.CameraPose;
 import me.sootysplash.optimalaim.config.OptimalAimConfig;
 import me.sootysplash.optimalaim.hitbox.HitboxResolver;
@@ -69,11 +69,11 @@ public class OptimalAim /*? if fabric {*/ implements ModInitializer /*?}*/ {
         if (!config.enabled) return;
 
         if (player == null) {
-            player = OmniClientPlayer.getInstance();
+            player = OmniClient.getPlayer();
             if (player == null) return;
         }
 
-        float tickDelta = OmniGameRendering.getTickDelta(true);
+        float tickDelta = OmniRenderTicks.get(true);
         selector.getNearbyEntities(player, tickDelta).stream()
                 .limit(config.entityLimit)
                 .forEach(entity -> renderEntityBox(player, entity, camera, tickDelta, config));
