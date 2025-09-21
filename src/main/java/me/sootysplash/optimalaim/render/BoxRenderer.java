@@ -8,6 +8,8 @@ import dev.deftu.omnicore.api.client.render.stack.OmniMatrixStack;
 import dev.deftu.omnicore.api.client.render.stack.OmniMatrixStacks;
 import dev.deftu.omnicore.api.client.render.vertex.OmniBufferBuilder;
 import dev.deftu.omnicore.api.client.render.vertex.OmniBufferBuilders;
+import dev.deftu.omnicore.api.data.aabb.OmniAABB;
+import dev.deftu.omnicore.api.data.vec.OmniVec3d;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
@@ -20,11 +22,11 @@ public class BoxRenderer {
         this.pipelines = pipelines;
     }
 
-    public void drawBox(PoseStack pose, AABB cube, Color color) {
-        AABB local = cube.move(new Vec3(cube.minX, cube.minY, cube.minZ).reverse());
+    public void drawBox(PoseStack pose, OmniAABB cube, Color color) {
+        OmniAABB local = cube.offset(new OmniVec3d(cube.getMinX(), cube.getMinY(), cube.getMinZ()).toVanilla().reverse());
 
-        float x1 = (float) local.minX, y1 = (float) local.minY, z1 = (float) local.minZ;
-        float x2 = (float) local.maxX, y2 = (float) local.maxY, z2 = (float) local.maxZ;
+        float x1 = (float) local.getMinX(), y1 = (float) local.getMinY(), z1 = (float) local.getMinZ();
+        float x2 = (float) local.getMaxX(), y2 = (float) local.getMaxY(), z2 = (float) local.getMaxZ();
 
         OmniRenderPipeline pipeline = pipelines.get();
 

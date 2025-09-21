@@ -3,6 +3,8 @@ package me.sootysplash.optimalaim;
 import com.mojang.blaze3d.vertex.*;
 import dev.deftu.omnicore.api.client.OmniClient;
 import dev.deftu.omnicore.api.client.render.OmniRenderTicks;
+import dev.deftu.omnicore.api.data.aabb.OmniAABB;
+import dev.deftu.omnicore.api.data.vec.OmniVec3d;
 import me.sootysplash.optimalaim.camera.CameraPose;
 import me.sootysplash.optimalaim.config.OptimalAimConfig;
 import me.sootysplash.optimalaim.hitbox.HitboxResolver;
@@ -12,15 +14,11 @@ import me.sootysplash.optimalaim.render.PipelineProvider;
 import me.sootysplash.optimalaim.select.TargetSelector;
 //? if fabric {
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderEvents;
 import dev.kikugie.fletching_table.annotation.fabric.Entrypoint;
 //?}
 import net.minecraft.client.Camera;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.phys.AABB;
-import net.minecraft.world.phys.Vec3;
-import java.util.List;
 
 //? if neoforge {
 /*import net.neoforged.api.distmarker.Dist;
@@ -81,16 +79,16 @@ public class OptimalAim /*? if fabric {*/ implements ModInitializer /*?}*/ {
     }
 
     private void renderEntityBox(LocalPlayer player, Entity entity, Camera camera, float tickDelta, OptimalAimConfig config) {
-        AABB target = hitboxes.resolveTargetHitbox(entity, player, tickDelta);
+        OmniAABB target =  hitboxes.resolveTargetHitbox(entity, player, tickDelta);
         if (target == null) return;
 
-        Vec3 optimal = GeometryUtil.closestPointToBox(target, player.getEyePosition(tickDelta));
-        AABB cube = geom.buildCubeAround(optimal, config.cubeSize / 5.0);
+        OmniVec3d optimal = GeometryUtil.closestPointToBox(target, player.getEyePosition(tickDelta));
+        OmniAABB cube = geom.buildCubeAround(optimal, config.cubeSize / 5.0);
         if (config.hitbox) {
             cube = geom.clampCubeToHitbox(cube, target);
         }
 
-        PoseStack pose = cameraPose.makeCameraAlignedPose(camera, cube, tickDelta);
+        PoseStack pose = cameraPose.makeCameraAlignedPose(camera, cube);
         boxRenderer.drawBox(pose, cube, config.fillColor);
     }
 

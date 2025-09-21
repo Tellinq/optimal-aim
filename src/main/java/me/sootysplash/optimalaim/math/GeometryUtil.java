@@ -1,40 +1,44 @@
 package me.sootysplash.optimalaim.math;
 
+import dev.deftu.omnicore.api.data.aabb.OmniAABB;
+import dev.deftu.omnicore.api.data.vec.OmniVec3d;
+import dev.deftu.omnicore.api.data.vec.OmniVec3i;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
 public class GeometryUtil {
 
-    public static Vec3 closestPointToBox(AABB box, Vec3 point) {
-        double x = Math.min(Math.max(point.x, box.minX), box.maxX);
-        double y = Math.min(Math.max(point.y, box.minY), box.maxY);
-        double z = Math.min(Math.max(point.z, box.minZ), box.maxZ);
-        return new Vec3(x, y, z);
+    public static OmniVec3d closestPointToBox(OmniAABB box, Vec3 point) {
+        double x = Math.min(Math.max(point.x, box.getMinX()), box.getMaxX());
+        double y = Math.min(Math.max(point.y, box.getMinY()), box.getMaxY());
+        double z = Math.min(Math.max(point.z, box.getMinZ()), box.getMaxZ());
+        return new OmniVec3d(x, y, z);
     }
 
-    public AABB buildCubeAround(Vec3 center, double halfSize) {
-        Vec3 min = center.add(-halfSize, -halfSize, -halfSize);
-        Vec3 max = center.add( halfSize,  halfSize,  halfSize);
-        return new AABB(min, max);
+    public OmniAABB buildCubeAround(OmniVec3d center, double halfSize) {
+        OmniVec3d min = center.plus(-halfSize);
+        OmniVec3d max = center.plus(halfSize);
+        return new OmniAABB(min, max);
     }
 
-    public AABB clampCubeToHitbox(AABB cube, AABB bounds) {
-        Vec3 min = new Vec3(cube.minX, cube.minY, cube.minZ);
-        Vec3 max = new Vec3(cube.maxX, cube.maxY, cube.maxZ);
+    public OmniAABB clampCubeToHitbox(OmniAABB cube, OmniAABB bounds) {
 
-        Vec3 minComp = new Vec3(
-                -(min.x() - Math.max(min.x(), bounds.minX)),
-                -(min.y() - Math.max(min.y(), bounds.minY)),
-                -(min.z() - Math.max(min.z(), bounds.minZ))
+        OmniVec3d min = cube.getMin();
+        OmniVec3d max = cube.getMax();
+
+        OmniVec3d minComp = new OmniVec3d(
+                -(min.getX() - Math.max(min.getX(), bounds.getMinX())),
+                -(min.getY() - Math.max(min.getY(), bounds.getMinY())),
+                -(min.getZ() - Math.max(min.getZ(), bounds.getMinZ()))
         );
-        Vec3 maxComp = new Vec3(
-                -(max.x() - Math.min(max.x(), bounds.maxX)),
-                -(max.y() - Math.min(max.y(), bounds.maxY)),
-                -(max.z() - Math.min(max.z(), bounds.maxZ))
+        OmniVec3d maxComp = new OmniVec3d(
+                -(max.getX() - Math.min(max.getX(), bounds.getMaxX())),
+                -(max.getY() - Math.min(max.getY(), bounds.getMaxY())),
+                -(max.getZ() - Math.min(max.getZ(), bounds.getMaxZ()))
         );
 
-        Vec3 newMin = min.add(minComp.add(maxComp));
-        Vec3 newMax = max.add(maxComp.add(minComp));
-        return new AABB(newMin, newMax);
+        OmniVec3d newMin = min.plus(minComp.plus(maxComp));
+        OmniVec3d newMax = max.plus(maxComp.plus(minComp));
+        return new OmniAABB(newMin, newMax);
     }
 }

@@ -3,6 +3,9 @@ package me.sootysplash.optimalaim.select;
 import com.google.common.collect.Streams;
 import dev.deftu.omnicore.api.client.OmniClient;
 import dev.deftu.omnicore.api.client.render.OmniRenderTicks;
+import dev.deftu.omnicore.api.data.DistanceMetric;
+import dev.deftu.omnicore.api.data.aabb.OmniAABB;
+import dev.deftu.omnicore.api.data.vec.OmniVec3d;
 import dev.deftu.omnicore.api.player.OmniPlayers;
 import me.sootysplash.optimalaim.config.OptimalAimConfig;
 import me.sootysplash.optimalaim.math.GeometryUtil;
@@ -25,7 +28,7 @@ public class TargetSelector {
         ClientLevel world = OmniClient.getWorld();
         if (world == null || player == null) return List.of();
 
-        Vec3 eye = player.getEyePosition(tickDelta);
+        OmniVec3d eye = new OmniVec3d(player.getEyePosition(tickDelta));
         double maxDist = OptimalAimConfig.instance().distance;
         boolean onlyPlayers = OptimalAimConfig.instance().onlyTargetPlayers;
         boolean showWhileHit = OptimalAimConfig.instance().showWhileHit;
@@ -36,7 +39,7 @@ public class TargetSelector {
                 .toList();
     }
 
-    private boolean isCandidate(LocalPlayer player, Entity entity, Vec3 eye, double maxDist, boolean onlyPlayers, boolean showWhileHit) {
+    private boolean isCandidate(LocalPlayer player, Entity entity, OmniVec3d eye, double maxDist, boolean onlyPlayers, boolean showWhileHit) {
         if (entity == player) return false;
         if (!(onlyPlayers ? entity instanceof Player : entity instanceof LivingEntity)) return false;
         if (!player.hasLineOfSight(entity)) return false;
@@ -44,14 +47,14 @@ public class TargetSelector {
         if (!entity.isAttackable() || entity.isInvisible() || entity.hasPassenger(player)) return false;
         if (!showWhileHit && entity instanceof LivingEntity le && le.hurtTime > 0) return false;
 
-        Vec3 closest = GeometryUtil.closestPointToBox(entity.getBoundingBox(), eye);
-        return eye.distanceTo(closest) <= maxDist;
+        OmniVec3d closest = GeometryUtil.closestPointToBox(new OmniAABB(entity.getBoundingBox()), eye.toVanilla());
+        return eye.distanceTo(closest, DistanceMetric.EUCLIDEAN) <= maxDist;
     }
 
     public float yaw(Entity entity) {
         Player player = OmniClient.getPlayer();
-        Vec3 target = GeometryUtil.closestPointToBox(entity.getBoundingBox(), player.getEyePosition(OmniRenderTicks.get(true)));
-        float amount = (float) Math.toDegrees(atan2(target.z - OmniPlayers.getPosZ(player), target.x - OmniPlayers.getPosX(player))) - 90.0f;
+        OmniVec3d target = GeometryUtil.closestPointToBox(new OmniAABB(entity.getBoundingBox()), player.getEyePosition(OmniRenderTicks.get(true)));
+        float amount = (float) Math.toDegrees(atan2(target.getZ() - OmniPlayers.getPosZ(player), target.getX() - OmniPlayers.getPosX(player))) - 90.0f;
         amount = Math.abs(wrapDegrees(amount - OmniPlayers.getRotationYaw(player)));
         return amount;
     }
