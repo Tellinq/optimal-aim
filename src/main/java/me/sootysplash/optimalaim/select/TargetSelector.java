@@ -7,6 +7,7 @@ import dev.deftu.omnicore.api.client.render.OmniRenderTicks;
 import dev.deftu.omnicore.api.data.DistanceMetric;
 import dev.deftu.omnicore.api.data.aabb.OmniAABB;
 import dev.deftu.omnicore.api.data.vec.OmniVec3d;
+import dev.deftu.omnicore.api.entity.OmniEntities;
 import dev.deftu.omnicore.api.player.OmniPlayers;
 import me.sootysplash.optimalaim.config.OptimalAimConfig;
 import me.sootysplash.optimalaim.math.GeometryUtil;
@@ -55,8 +56,8 @@ public class TargetSelector {
     public float yaw(Entity entity) {
         Player player = OmniClient.getPlayer();
         OmniVec3d target = GeometryUtil.closestPointToBox(new OmniAABB(entity.getBoundingBox()), new OmniVec3d(player.getEyePosition(OmniRenderTicks.get(true))));
-        float amount = (float) Math.toDegrees(atan2(target.getZ() - OmniPlayers.getPosZ(player), target.getX() - OmniPlayers.getPosX(player))) - 90.0f;
-        amount = Math.abs(wrapDegrees(amount - OmniPlayers.getRotationYaw(player)));
+        float amount = (float) Math.toDegrees(atan2(target.getZ() - OmniEntities.getCurrentZ(player), target.getX() - OmniEntities.getCurrentX(player))) - 90.0f;
+        amount = Math.abs(wrapDegrees(amount - OmniEntities.getCurrentYaw(player) ));
         return amount;
     }
 }
