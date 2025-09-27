@@ -57,6 +57,7 @@ base { archivesName.set(mod.id) }
 stonecutter {
     constants["fabric"] = loader.isFabric
     constants["neoforge"] = loader.isNeoforge
+    constants["modmenu"] = !deps.modmenuVersion.toString().isEmpty()
 }
 
 blossom {
@@ -156,7 +157,9 @@ dependencies {
         modImplementation("net.fabricmc.fabric-api:fabric-api:${deps.fabricApiVersion}+${mc.version}")
         modImplementation("dev.isxander:yet-another-config-lib:${deps.yaclVersion}+${mc.version}-${loader.loader}")
         modImplementation("dev.deftu:omnicore-${mc.version}-${loader.loader}:${deps.omnicoreVersion}")
-        modImplementation("com.terraformersmc:modmenu:${deps.modmenuVersion}")
+        if (!deps.modmenuVersion.toString().isEmpty()) {
+            modImplementation("com.terraformersmc:modmenu:${deps.modmenuVersion}")
+        }
     } else if (loader.isNeoforge) {
         "neoForge"("net.neoforged:neoforge:${deps.neoforgeVersion}")
         implementation("dev.isxander:yet-another-config-lib:${deps.yaclVersion}+${mc.version}-${loader.loader}") { isTransitive = false }
