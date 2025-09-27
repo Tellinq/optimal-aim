@@ -42,6 +42,7 @@ class LoaderData {
 
 class McData {
     val version = property("mod.mc_version")
+    val version_internal = property("mod.mc_version_lib")
     val dep = property("mod.mc_dep").toString()
 }
 
@@ -154,15 +155,15 @@ dependencies {
 
     if (loader.isFabric) {
         modImplementation("net.fabricmc:fabric-loader:${deps.fabricLoaderVersion}")!!
-        modImplementation("net.fabricmc.fabric-api:fabric-api:${deps.fabricApiVersion}+${mc.version}")
-        modImplementation("dev.isxander:yet-another-config-lib:${deps.yaclVersion}+${mc.version}-${loader.loader}")
+        modImplementation("net.fabricmc.fabric-api:fabric-api:${deps.fabricApiVersion}+${mc.version_internal}")
+        modImplementation("dev.isxander:yet-another-config-lib:${deps.yaclVersion}+${mc.version_internal}-${loader.loader}")
         modImplementation("dev.deftu:omnicore-${mc.version}-${loader.loader}:${deps.omnicoreVersion}")
         if (!deps.modmenuVersion.toString().isEmpty()) {
             modImplementation("com.terraformersmc:modmenu:${deps.modmenuVersion}")
         }
     } else if (loader.isNeoforge) {
         "neoForge"("net.neoforged:neoforge:${deps.neoforgeVersion}")
-        implementation("dev.isxander:yet-another-config-lib:${deps.yaclVersion}+${mc.version}-${loader.loader}") { isTransitive = false }
+        implementation("dev.isxander:yet-another-config-lib:${deps.yaclVersion}+${mc.version_internal}-${loader.loader}") { isTransitive = false }
         implementation("dev.deftu:omnicore-${mc.version}-${loader.loader}:${deps.omnicoreVersion}")
     }
 
