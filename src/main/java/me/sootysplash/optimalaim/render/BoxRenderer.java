@@ -32,7 +32,7 @@ public class BoxRenderer {
 
         OmniBufferBuilder omniBufferBuilder = OmniBufferBuilders.create(DrawMode.QUADS, pipeline.getVertexFormat());
         addBoxQuads(omniBufferBuilder, OmniMatrixStacks.wrap(pose), x1, y1, z1, x2, y2, z2, color);
-        omniBufferBuilder.buildOrNull().draw(pipeline, ignore -> {});
+        omniBufferBuilder.buildOrNull().drawAndClose(pipeline, ignore -> {});
     }
 
     private void addBoxQuads(
