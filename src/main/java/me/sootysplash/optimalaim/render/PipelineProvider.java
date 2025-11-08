@@ -1,6 +1,6 @@
 package me.sootysplash.optimalaim.render;
 
-import dev.deftu.omnicore.api.OmniIdentifier;
+import dev.deftu.omnicore.api.OmniResourceLocation;
 import dev.deftu.omnicore.api.client.render.DefaultVertexFormats;
 import dev.deftu.omnicore.api.client.render.DrawMode;
 import dev.deftu.omnicore.api.client.render.pipeline.OmniRenderPipeline;
@@ -15,7 +15,7 @@ public final class PipelineProvider {
         if (pipeline == null) {
 
             OmniRenderPipelineBuilder builder = OmniRenderPipelines.builderWithDefaultShader(
-                    OmniIdentifier.createOrNull("optimalaim", "boxrenderer"),
+                    OmniResourceLocation.createOrNull("optimalaim", "boxrenderer"),
                     DefaultVertexFormats.POSITION_COLOR,
                     DrawMode.QUADS
             );
