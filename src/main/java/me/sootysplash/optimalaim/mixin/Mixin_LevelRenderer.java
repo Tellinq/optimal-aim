@@ -42,7 +42,7 @@ public class Mixin_LevelRenderer {
             Matrix4f frustumMatrix,
             Matrix4f projectionMatrix,
             //? if >=1.21.9
-            /*Matrix4f cullingProjectionMatrix,*/
+            Matrix4f cullingProjectionMatrix,
             //? if >=1.21.6
             GpuBufferSlice fogBuffer, Vector4f fogColor, boolean renderSky,
             CallbackInfo ci
